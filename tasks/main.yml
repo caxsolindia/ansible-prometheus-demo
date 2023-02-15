@@ -1,0 +1,53 @@
+---
+
+- name: Update the package repository
+  apt:
+    update_cache: yes
+
+- name: Install Prometheus and node exporter
+  apt:
+    name:
+      - prometheus
+      - prometheus-node-exporter
+    state: present
+
+- name: Create Prometheus config
+  template:
+    src: templates/prometheus.yml.j2
+    dest: /etc/prometheus/prometheus.yml
+    mode: 0644
+
+- name: Create a directory
+  become: true
+  file:
+    path: /etc/prometheus/rules
+    state: directory
+    mode: "0755"
+    owner: root
+    group: root
+
+- name: Create custom rules file
+  copy:
+    src: files/custom_rules.yml
+    dest: /etc/prometheus/rules/custom_rules.yml
+    owner: prometheus
+    mode: 0644
+
+- name: Start and enable Prometheus
+  service:
+    name: prometheus
+    state: started
+    enabled: yes
+
+- name: Start and enable node exporter
+  service:
+    name: prometheus-node-exporter
+    state: started
+    enabled: yes
+
+- name: Restart Prometheus service
+  service:
+    name: prometheus
+    state: restarted
+    enabled: yes
+
