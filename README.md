@@ -24,7 +24,7 @@ This project aims to demonstrate how to use Ansible to configure Prometheus on a
   - The playbook can be customized to fit your specific needs by modifying the file and the Jinja2 template file in the templates directory. You can also       add or remove tasks in the playbook as needed.
   
 # Credits
-  - This project was created by Ronak Prajapati.
+  - This project was created by Ronak Prajapati From Caxsol Team.
 
 
 
